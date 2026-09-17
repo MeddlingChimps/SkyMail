@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>SkyMail Portal</title>
+  <style>
+    body {
+      font-family: Segoe UI, Arial, sans-serif;
+      background: linear-gradient(to bottom right, #d9ecff, #e8f5ff);
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+      
+.header {
+      background: #0078d4;
+      padding: 18px;
+      color: white;
+      font-size: 40px;
+      font-weight: 800;
+      text-align: center;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+.container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+.box {
+      width: 380px;
+      padding: 35px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+
+@keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+.box h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: #333;
+      font-size: 22px;
+      text-align: center;
+    }
+
+.input-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+.input-wrapper input {
+      width: 100%;
+      padding: 14px;
+      margin: 12px 0;
+      border: 1px solid #bfc7d1;
+      border-radius: 6px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+input {
+      width: 100%;
+      padding: 14px;
+      margin: 12px 0;
+      border: 1px solid #bfc7d1;
+      border-radius: 6px;
+      font-size: 16px;
+      transition: border 0.2s;
+    }
+
+input:focus {
+      border-color: #0078d4;
+      outline: none;
+    } 
+      
+button {
+      width: 100%;
+      padding: 14px;
+      background: #0078d4;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 17px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+button:hover {
+      background: #006bb8;
+    }
+
+button:active {
+      transform: scale(0.98);
+    } 
+
+@keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+
+.error {
+      color: #d40000;
+      margin-top: 18px;
+      display: none;
+      animation: shake 0.3s;
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: 0.5px;
+    }
+      
+.spinner {
+      display: none;
+      margin: 18px auto;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #0078d4;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      animation: spin 0.8s linear infinite;
+    }
+
+@keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+      
+.forgot {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #0078d4;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+.reset-msg {
+      margin-top: 25px;
+      font-size: 15px;
+      color: black;
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+  </style>
+    </head>
+
+<body>
+
+    <div class="header">
+    <span>SkyMail</span>
+    </div>
+
+  <div class="container">
+    <div class="box">
+      <h2>Sign in</h2>
+
+      <div class="input-wrapper">
+        <input id="email" type="text" placeholder="Email address">
+        <input id="password" type="password" placeholder="Password">
+      </div>
+
+      <button onclick="attemptLogin()">Sign In</button>
+
+      <div id="spinner" class="spinner"></div>
+        
+      <p id="error1" class="error">PASSWORD INCORRECT</p>
+      <p id="error2" class="error">STILL WRONG</p>
+      <p id="error3" class="error">1 MORE ATTEMPT, DON'T FUCK IT UP</p>
+      <p id="error4" class="error">TRY AGAIN IN: NEVER — YOU'RE SCREWED</p>
+
+      <div class="forgot">Forgot Password?</div>
+
+      <p id="reset" class="reset-msg">Reset Password: 0923 673 890</p>
+    </div>
+  </div>
+
+  <script>
+    let attempts = 0;
+
+    function attemptLogin() {
+
+      const password = document.getElementById("password").value;
+
+      // ✔ Correct password → redirect
+      if (password === "123Security" || password === "123security") {
+        window.location.href = "success.html";
+        return;
+      }
+
+      attempts++;   
+        
+      document.getElementById("error1").style.display = "none";
+      document.getElementById("error2").style.display = "none";
+      document.getElementById("error3").style.display = "none";
+      document.getElementById("error4").style.display = "none";
+      document.getElementById("reset").style.display = "none";
+
+      const spinner = document.getElementById("spinner");
+      spinner.style.display = "block";
+
+      setTimeout(() => {
+        spinner.style.display = "none";
+          
+        if (attempts === 1) {
+          document.getElementById("error1").style.display = "block";
+        } else if (attempts === 2) {
+          document.getElementById("error2").style.display = "block";
+        } else if (attempts === 3) {
+          document.getElementById("error3").style.display = "block";
+        } else {
+          document.getElementById("error4").style.display = "block";
+          document.getElementById("reset").style.display = "block";
+        }
+      }, 1000);
+    }
+  </script>
+    
+</body>
+</html>
